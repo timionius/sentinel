@@ -25,6 +25,18 @@ Sentinel follows an architecture-first AI-SDLC where:
 - Git is the authoritative system of record
 - All changes are deterministic and traceable
 
+## Documentation Architecture
+
+Sentinel documentation is intentionally divided into three independent layers:
+
+**Proposal** (this document): Explains why Sentinel exists and what problem it solves. Defines the trust gap in autonomous systems, introduces Behavioral Invariants as the object of trust, and establishes architectural principles. Remains implementation-independent, blockchain-independent, and valid across technological evolution.
+
+**Trust Specification**: Defines what Sentinel guarantees. Defines trust guarantees precisely, establishes verification requirements, specifies Evidence formats, and defines Attestation semantics. Remains implementation-independent and blockchain-independent.
+
+**Reference Implementation**: Demonstrates how the trust model is realized. Targets specific blockchain infrastructure, demonstrates feasibility, provides concrete realization, and serves as reference for future implementations.
+
+These layers evolve independently. The proposal remains stable across decades, the specification evolves as trust requirements are refined, and implementations evolve as technology advances. This independence ensures long-term architectural stability.
+
 ## Getting Started
 
 Documentation and implementation guides will be added as the platform develops. Check the `docs/` directory for architecture decisions and specifications.
