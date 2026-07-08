@@ -1,129 +1,112 @@
 # Sentinel Terminology
 
-This document defines the canonical terminology used throughout Sentinel.
+This document defines the canonical terminology for Sentinel v1.
 
-These definitions establish the meaning of the architectural concepts referenced by the Proposal, Trust Specification, and Reference Implementation. Sentinel documentation **SHOULD** use these terms consistently and **SHOULD** avoid introducing alternative terminology for equivalent concepts.
+These definitions are **normative**. Every canonical term has exactly one normative definition. Sentinel documentation uses these terms consistently and does not redefine them.
+
+Terminology is organized according to the Sentinel trust lifecycle.
 
 ---
 
-# Core Concepts
+# Trust Establishment
 
 ## Agent
 
-An autonomous software entity capable of performing blockchain operations on behalf of itself or another party.
+A software entity capable of performing work on its own behalf or under delegated authority.
+
+An Agent may perform computation, reasoning, planning, and interactions outside blockchain systems. Sentinel is concerned only with the blockchain operations performed by an Agent.
 
 ## Identity
 
-The cryptographically verifiable representation of an agent within the Sentinel trust model.
+The cryptographically verifiable representation of an Agent within the Sentinel trust model.
 
-## Identity Integrity *(Core Guarantee)*
+## Identity Integrity
 
-The assurance that an agent's identity has not been forged, substituted, or altered.
+The assurance that an Agent's Identity has not been forged, substituted, or altered.
 
-## Intent
+## Delegated Authority
 
-The declared purpose of an autonomous agent describing what the agent is designed or expected to accomplish.
+The explicitly authorized scope within which an Agent is permitted to perform blockchain operations on behalf of another party.
 
-Intent is a semantic declaration that exists prior to execution and may be derived from one or more declarative sources, including agent metadata, program identifiers, published capabilities, API or MCP descriptions, or other specifications.
-Intent is consumed by the Producer when deriving Trust Commitments and is distinct from the agent's realized Blockchain Behavior Footprint.
+Delegated Authority establishes the trust basis from which a Trust Commitment is derived.
 
-## Intent Integrity *(Core Guarantee)*
+## Trust Commitment
 
-The assurance that an agent's declared Intent has not been forged, substituted, or altered.
+A cryptographic representation of the authorized constraints on an Agent's blockchain behavior.
 
-Intent Integrity concerns the authenticity and integrity of the semantic declaration describing the agent's intended purpose, independent of execution.
+A Trust Commitment is produced during Trust Establishment prior to execution and forms the basis for authorization, verification, evidence production, and attestation.
 
-## Behavior
+## Trust Establishment
 
-The blockchain operations performed by an autonomous agent while realizing a declared Intent.
+The process of validating Identity, Delegated Authority, and other required declarative inputs in order to produce Trust Commitments.
 
-Sentinel evaluates realized behavior through the agent's Blockchain Behavior Footprint.
+Trust Establishment is independent of execution and verification.
 
-## Behavioral Integrity *(Core Guarantee)*
+---
 
-The assurance that an agent's Blockchain Behavior Footprint remains consistent with its established Trust Commitments and Behavioral Invariants.
-
-Behavioral Integrity concerns realized blockchain behavior rather than the semantic declaration of Intent.
-
-## Behavioral Invariant *(Fundamental Concept)*
-
-A property of an agent's observable blockchain behavior that must remain true regardless of execution strategy, transaction ordering, protocol composition, or implementation evolution.
-
-Behavioral Invariants define the stable behavioral properties against which Blockchain Behavior Footprints are verified.
+# Execution
 
 ## Blockchain Behavior Footprint
 
-The complete observable representation of an autonomous agent's realized blockchain behavior while executing a declared Intent.
+The complete observable representation of the blockchain operations performed by an Agent.
 
-A Blockchain Behavior Footprint may contain one or many transactions spanning multiple protocols, execution paths, and blockchain systems.
-The Blockchain Behavior Footprint is the primary behavioral object evaluated by Sentinel during verification.
+A Blockchain Behavior Footprint may contain one or many transactions spanning multiple protocols, execution paths, and blockchain systems. It represents only the blockchain-visible portion of an Agent's overall activity.
+
+The Blockchain Behavior Footprint is the canonical object of verification in Sentinel.
 
 ---
 
-# Trust Model
-
-## Trust Layer
-
-The Sentinel infrastructure responsible for providing Identity verification, authorization, evidence production, and attestation independently of agent execution systems.
-
-## Trust Commitment *(Fundamental Concept)*
-
-A cryptographic representation of the blockchain behavior an agent is authorized to perform.
-
-Trust Commitments are produced by the Producer from validated Identity, declared Intent, and other available declarative information prior to execution.
-They serve as the stable basis for authorization, behavioral verification, and attestation.
+# Verification
 
 ## Authorization
 
-The determination that an observed Blockchain Behavior Footprint, or a blockchain operation within that Footprint, is permitted by an established Trust Commitment.
+The determination that an observed Blockchain Behavior Footprint, or an operation within that Footprint, is permitted by an established Trust Commitment.
 
-## Evidence
+## Behavioral Integrity
 
-Cryptographically verifiable records describing an agent's Blockchain Behavior Footprint together with the associated verification and authorization decisions.
+The assurance that an Agent's Blockchain Behavior Footprint remains consistent with an established Trust Commitment.
 
-## Attestation
+## Verification
 
-A cryptographic statement asserting that an agent's Blockchain Behavior Footprint has remained consistent with its Trust Commitments and Behavioral Invariants over a specified period.
+The process of evaluating a Blockchain Behavior Footprint against an established Trust Commitment.
 
-
----
-
-# Execution Model
-
-## Execution Graph *(Fundamental Concept)*
-
-A representation of the blockchain operations through which an autonomous agent realizes a declared Intent.
-An Execution Graph captures the relationships among the operations that comprise a particular execution, including sequencing, dependencies, protocol interactions, and other execution characteristics.
-Execution Graph is the primary object of trust.
-
-## Behavioral Equivalence
-
-The condition in which two or more different Execution Graphs satisfy the same set of Behavioral Invariants.
+Verification produces cryptographically verifiable Evidence that serves as the basis for Attestation.
 
 ## Continuous Verification
 
-The ongoing validation that an agent's observable blockchain behavior remains consistent with its Trust Commitments and Behavioral Invariants.
+The ongoing validation that an Agent's Blockchain Behavior Footprint remains consistent with an established Trust Commitment.
+
+## Evidence
+
+Cryptographically verifiable records of an Agent's Blockchain Behavior Footprint together with the associated verification and authorization decisions.
+
+## Attestation
+
+A cryptographic statement asserting that an Agent's Blockchain Behavior Footprint has remained consistent with an established Trust Commitment over a specified period.
 
 ---
 
-# Producer / Verifier Separation
+# Trust Infrastructure
+
+## Trust Layer
+
+The architectural layer responsible for trust establishment, verification, evidence production, and attestation independently of execution systems.
 
 ## Producer
 
-The component responsible for deriving Trust Commitments from validated Identity, declared Intent, capabilities, specifications, policies, and other available declarative information.
+The component responsible for producing a Trust Commitment from validated Identity, Delegated Authority, and other declarative inputs.
 
-Trust Commitment production is independent of subsequent behavioral verification.
+Trust Commitment production is independent of subsequent verification.
 
 ## Verifier
 
-The component responsible for validating that an agent's Blockchain Behavior Footprint remains consistent with established Trust Commitments and their associated Behavioral Invariants, producing cryptographically verifiable Evidence that supports Attestations.
+The component responsible for evaluating a Blockchain Behavior Footprint against an established Trust Commitment, producing cryptographically verifiable Evidence that supports Attestation.
 
 ## Producer / Verifier Separation
 
 The architectural principle that Trust Commitment production and trust verification evolve independently.
 
-Producers, derivation techniques, AI systems, execution frameworks, and blockchain ecosystems may evolve independently.
-The Sentinel verification model, verification semantics, and trust guarantees remain stable despite those evolutions.
+Producers, authorization mechanisms, execution frameworks, AI systems, and blockchain ecosystems may evolve independently while Sentinel's verification semantics and trust guarantees remain stable.
 
 ---
 
@@ -135,7 +118,7 @@ The property that Sentinel's trust model remains valid across different blockcha
 
 ## Cryptographic Accountability
 
-The requirement that every authorization decision, Trust Commitment, and Attestation be independently verifiable through cryptographic evidence.
+The requirement that every authorization decision, Trust Commitment, Evidence, and Attestation be independently verifiable through cryptographic evidence.
 
 ## Verifiable Trust
 
@@ -143,25 +126,28 @@ The principle that trust assertions must be supported by cryptographically verif
 
 ---
 
-# Conceptual Flow
+# Trust Lifecycle
 
 ```text
 Identity
     │
     ▼
-Declared Intent
+Delegated Authority
     │
     ▼
-Producer
+Trust Establishment
     │
     ▼
 Trust Commitment
     │
     ▼
+Execution
+    │
+    ▼
 Blockchain Behavior Footprint
     │
     ▼
-Verifier
+Verification
     │
     ▼
 Evidence
@@ -170,15 +156,14 @@ Evidence
 Attestation
 ```
 
-Behavioral Invariants are derived from the declared Intent and embodied within the resulting Trust Commitment. During verification, the Verifier evaluates the realized Blockchain Behavior Footprint against those established commitments to produce Evidence and Attestations.
-
 ---
 
 # Terminology Usage Guidelines
 
-- Use **Intent** instead of alternatives such as **objective**, **goal**, or **purpose** when referring to the intended outcome of agent behavior.
-- Use **Behavioral Invariants** as the primary abstraction for stable trust properties.
-- Use **Execution Graph** only when describing how an Intent is realized, not as the primary object of trust.
-- Use **Trust Commitment** when referring to the cryptographic representation of authorized behavior.
-- Use **Behavioral Integrity** and **Intent Integrity** consistently when discussing Sentinel's trust guarantees.
-- Use **Blockchain Behavior Footprint** as the canonical term for realized blockchain behavior.
+- Use **Delegated Authority** as the canonical term for the authority granted to an Agent to perform blockchain operations.
+- Use **Trust Commitment** as the canonical representation of the authorized constraints on an Agent's blockchain behavior.
+- Use **Blockchain Behavior Footprint** as the canonical term for realized blockchain operations observed during verification.
+- Use **Verification** when referring to evaluation of realized blockchain behavior against established Trust Commitment.
+- Use **Evidence** for cryptographically verifiable records produced during verification.
+- Use **Attestation** for cryptographic statements derived from verification results.
+- Avoid introducing alternative terminology for canonical Sentinel concepts.
